@@ -28,6 +28,11 @@ productsRouter.post('/', (req, res) => {
 
     const products = JSON.parse(fs.readFileSync('src/data/products.json', 'utf-8'));
 
+    const existingProduct = products.find((p) => p.code === code);
+    if (existingProduct) {
+        return res.status(400).json({ error: 'Ya existe un producto con el mismo código' });
+    }
+
     const newProduct = {
         id: Date.now().toString(),
         title,
